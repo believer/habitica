@@ -1,0 +1,12 @@
+# Git
+.git/**
+
+# Deps
+node_modules/**
+
+# Config
+jest.config.js
+babel.config.js
+
+# Tests
+__tests__/**/*.ts

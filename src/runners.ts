@@ -17,3 +17,7 @@ function hatchPets() {
 function feedPets() {
   habitica.feedPets()
 }
+
+function joinQuest() {
+  habitica.joinQuest()
+}

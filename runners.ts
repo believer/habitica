@@ -13,3 +13,7 @@ function earthquake() {
 function hatchPets() {
   habitica.hatchPets()
 }
+
+function feedPets() {
+  habitica.feedPets()
+}

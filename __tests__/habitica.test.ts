@@ -260,3 +260,140 @@ describe('#hatchPets', () => {
     expect(Logger.log).toHaveBeenCalledWith('All out of eggs')
   })
 })
+
+describe('#feedPets', () => {
+  test('does not feed pets if no food is available', () => {
+    const habitica = setup({
+      user: {
+        items: {
+          pets: {
+            'PandaCub-Skeleton': 27,
+            'BearCub-Shade': 5,
+            'Jackalope-RoyalPurple': 5,
+            'Phoenix-Base': 5,
+            'Wolf-Red': 30,
+            'PandaCub-CottonCandyPink': 40,
+            'BearCub-Skeleton': 5,
+            'PandaCub-Shade': 30,
+            'Cactus-CottonCandyBlue': 15,
+            'Dragon-Skeleton': 5,
+            'Dragon-Shade': 5,
+            'Cactus-CottonCandyPink': 5,
+            'Dragon-Red': 5,
+            'PandaCub-CottonCandyBlue': 15,
+            'TigerCub-Golden': 20,
+            'FlyingPig-Base': 20,
+            'Fox-Desert': 15,
+            'TigerCub-Red': 5,
+            'Cactus-Shade': 5,
+            'LionCub-BlackPearl': 5,
+            'FlyingPig-RoyalPurple': 5,
+            'PandaCub-BlackPearl': 5,
+            'LionCub-RoyalPurple': 5,
+            'LionCub-Zombie': 25,
+            'Fox-White': 15,
+            'Dragon-BlackPearl': 5,
+            'SeaSerpent-Golden': 5,
+            'SeaSerpent-Red': 5,
+            'SeaSerpent-Shade': 5,
+          },
+          food: {
+            Chocolate: 0,
+            CottonCandyPink: 0,
+            Strawberry: 0,
+            Fish: 0,
+            Honey: 0,
+            Meat: 0,
+            CottonCandyBlue: 0,
+            RottenMeat: 0,
+            Potatoe: 0,
+            Milk: 0,
+          },
+        },
+      },
+    })
+
+    habitica.feedPets()
+
+    expect(Logger.log).toHaveBeenCalledWith('All out of food')
+  })
+
+  test('feeds pets with available food', () => {
+    const habitica = setup({
+      user: {
+        items: {
+          pets: {
+            'PandaCub-Skeleton': 27,
+            'BearCub-Shade': 5,
+            'Jackalope-RoyalPurple': 5,
+            'Phoenix-Base': 5,
+            'Wolf-Red': 30,
+            'PandaCub-CottonCandyPink': 40,
+            'BearCub-Skeleton': 5,
+            'PandaCub-Shade': 30,
+            'Cactus-CottonCandyBlue': 15,
+            'Dragon-Skeleton': 5,
+            'Dragon-Shade': 5,
+            'Cactus-CottonCandyPink': 5,
+            'Dragon-Red': 5,
+            'PandaCub-CottonCandyBlue': 15,
+            'TigerCub-Golden': 20,
+            'FlyingPig-Base': 20,
+            'Fox-Desert': 15,
+            'TigerCub-Red': 5,
+            'Cactus-Shade': 5,
+            'LionCub-BlackPearl': 5,
+            'FlyingPig-RoyalPurple': 5,
+            'PandaCub-BlackPearl': 5,
+            'LionCub-RoyalPurple': 5,
+            'LionCub-Zombie': 25,
+            'Fox-White': 15,
+            'Dragon-BlackPearl': 5,
+            'SeaSerpent-Golden': 5,
+            'SeaSerpent-Red': 5,
+            'SeaSerpent-Shade': 5,
+          },
+          food: {
+            Chocolate: 0,
+            CottonCandyPink: 0,
+            Strawberry: 0,
+            Fish: 1,
+            Honey: 0,
+            Meat: 2,
+            CottonCandyBlue: 0,
+            RottenMeat: 0,
+            Potatoe: 0,
+            Milk: 0,
+          },
+        },
+      },
+    })
+
+    UrlFetchApp.fetch.mockImplementationOnce(() => ({
+      getContentText: jest.fn().mockReturnValue('{ "success": true }'),
+    }))
+    UrlFetchApp.fetch.mockImplementationOnce(() => ({
+      getContentText: jest.fn().mockReturnValue('{ "success": true }'),
+    }))
+
+    habitica.feedPets()
+
+    expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
+      'https://habitica.com/api/v3/user/feed/Phoenix-Base/Meat',
+      {
+        method: 'post',
+        headers: 'headers',
+      }
+    )
+    expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
+      'https://habitica.com/api/v3/user/feed/PandaCub-Skeleton/Fish',
+      {
+        method: 'post',
+        headers: 'headers',
+      }
+    )
+
+    expect(Logger.log).toHaveBeenCalledWith('Feeding Meat to Phoenix-Base')
+    expect(Logger.log).toHaveBeenCalledWith('Feeding Fish to PandaCub-Skeleton')
+  })
+})

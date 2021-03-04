@@ -83,4 +83,43 @@ export default class Habitica {
       Logger.log(`Hatching ${egg} ${pet}`)
     })
   }
+
+  feedPets(): void {
+    const { items } = this.getUser()
+
+    const foods = hasItems(items.food)
+
+    if (foods.length === 0) {
+      Logger.log('All out of food')
+    }
+
+    const foodMap = {
+      Base: 'Meat',
+      CottonCandyBlue: 'CottonCandyBlue',
+      CottonCandyPink: 'CottonCandyPink',
+      Desert: 'Potatoe',
+      Golden: 'Honey',
+      Red: 'Strawberry',
+      Shade: 'Chocolate',
+      Skeleton: 'Fish',
+      White: 'Milk',
+      Zombie: 'RottenMeat',
+    }
+
+    const pets = hasItems(items.pets)
+      .map((pet) => {
+        const [, color] = pet.split('-')
+        return [pet, foodMap[color]]
+      })
+      .filter(([_, food]) => food)
+
+    const feed = foods.map((food) => {
+      return pets.find(([_, petLikes]) => food === petLikes)
+    })
+
+    feed.forEach(([pet, food]) => {
+      this.fetch(`/user/feed/${pet}/${food}`, HttpMethod.POST)
+      Logger.log(`Feeding ${food} to ${pet}`)
+    })
+  }
 }

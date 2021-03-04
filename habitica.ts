@@ -1,6 +1,11 @@
 import { HttpMethod, User, ArmoireResult } from './types'
 import config from './config'
 
+const hasItems = (items: { [key: string]: number }) =>
+  Object.entries(items)
+    .filter(([_, value]) => value > 0)
+    .flatMap(([item]) => item)
+
 export default class Habitica {
   private baseUrl = 'https://habitica.com/api/v3'
   private config = config
@@ -16,7 +21,7 @@ export default class Habitica {
   }
 
   private getUser(): User {
-    return this.fetch('/user?userFields=stats')
+    return this.fetch('/user?userFields=stats,items')
   }
 
   buyArmoire(): void {
@@ -55,5 +60,27 @@ export default class Habitica {
         `Mana is at ${mana}. Threshold = ${this.config.manaThresholds.earthquake}`
       )
     }
+  }
+
+  hatchPets(): void {
+    const { items } = this.getUser()
+
+    const eggs = hasItems(items.eggs)
+
+    if (eggs.length === 0) {
+      Logger.log(`All out of eggs`)
+      return
+    }
+
+    const hatchingPotions = hasItems(items.hatchingPotions)
+
+    const hatch = eggs.map((val, i) =>
+      [hatchingPotions].reduce((a, arr) => [...a, arr[i]], [val])
+    )
+
+    hatch.forEach(([pet, egg]) => {
+      this.fetch(`/user/hatch/${pet}/${egg}`, HttpMethod.POST)
+      Logger.log(`Hatching ${egg} ${pet}`)
+    })
   }
 }

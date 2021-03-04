@@ -3,17 +3,27 @@ export enum HttpMethod {
   POST = 'post',
 }
 
+interface UserStats {
+  gp: number
+  mp: number
+}
+
+interface UserItems {
+  eggs: { [key: string]: number }
+  food: { [key: string]: number }
+  hatchingPotions: { [key: string]: number }
+  pets: { [key: string]: number }
+}
+
 export interface User {
-  stats: {
-    gp: number
-    mp: number
-  }
+  items: UserItems
+  stats: UserStats
 }
 
 export interface ArmoireResult {
   armoire: {
-    type: string
     dropText: string
+    type: string
     value: number
   }
 }

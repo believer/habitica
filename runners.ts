@@ -9,3 +9,7 @@ function buyArmoire() {
 function earthquake() {
   habitica.earthquake()
 }
+
+function hatchPets() {
+  habitica.hatchPets()
+}

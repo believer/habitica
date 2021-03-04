@@ -46,11 +46,11 @@ $ clasp push
 
 ### `buyArmoire`
 
-This function will buy an "Enchanted armoire"
+Buy an "Enchanted Armoire"
 
 ### `earthquake`
 
-This function will cast "Earthquake" that buffs the party's intelligence
+Cast "Earthquake" that buffs the party's intelligence
 
 ### `hatchPets`
 

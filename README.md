@@ -51,3 +51,11 @@ This function will buy an "Enchanted armoire"
 ### `earthquake`
 
 This function will cast "Earthquake" that buffs the party's intelligence
+
+### `hatchPets`
+
+Hatch any eggs you have laying around
+
+## `feedPets`
+
+Feed those hungry pets

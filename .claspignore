@@ -9,4 +9,4 @@ jest.config.js
 babel.config.js
 
 # Tests
-__tests__/**/*.ts
+src/__tests__/**

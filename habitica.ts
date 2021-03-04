@@ -30,8 +30,8 @@ export default class Habitica {
         HttpMethod.POST
       )
 
-      if (armoire.type == 'food') {
-        Logger.log('You gained ' + armoire.dropText + '.')
+      if (armoire.type === 'food') {
+        Logger.log(`You gained ${armoire.dropText}`)
       } else {
         Logger.log(`You gained ${armoire.value} ${armoire.type}`)
       }

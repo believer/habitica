@@ -189,6 +189,37 @@ describe('#hatchPets', () => {
             Zombie: 1,
             White: 1,
           },
+          pets: {
+            'PandaCub-Skeleton': 27,
+            'BearCub-Shade': 5,
+            'Jackalope-RoyalPurple': 5,
+            'Phoenix-Base': 5,
+            'Wolf-Red': 30,
+            'PandaCub-CottonCandyPink': 40,
+            'BearCub-Skeleton': 5,
+            'PandaCub-Shade': 30,
+            'Cactus-CottonCandyBlue': 15,
+            'Dragon-Skeleton': 5,
+            'Dragon-Shade': 5,
+            'Cactus-CottonCandyPink': 5,
+            'Dragon-Red': 5,
+            'PandaCub-CottonCandyBlue': 15,
+            'TigerCub-Golden': 20,
+            'FlyingPig-Base': 20,
+            'Fox-Desert': 15,
+            'TigerCub-Red': 5,
+            'Cactus-Shade': 5,
+            'LionCub-BlackPearl': 5,
+            'FlyingPig-RoyalPurple': 5,
+            'PandaCub-BlackPearl': 5,
+            'LionCub-RoyalPurple': 5,
+            'LionCub-Zombie': 25,
+            'Fox-White': 15,
+            'Dragon-BlackPearl': 5,
+            'SeaSerpent-Golden': 5,
+            'SeaSerpent-Red': 5,
+            'SeaSerpent-Shade': 5,
+          },
         },
       },
     })
@@ -203,22 +234,22 @@ describe('#hatchPets', () => {
     habitica.hatchPets()
 
     expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
-      'https://habitica.com/api/v3/user/hatch/PandaCub/Skeleton',
+      'https://habitica.com/api/v3/user/hatch/PandaCub/Red',
       {
         method: 'post',
         headers: 'headers',
       }
     )
     expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
-      'https://habitica.com/api/v3/user/hatch/FlyingPig/Red',
+      'https://habitica.com/api/v3/user/hatch/FlyingPig/Skeleton',
       {
         method: 'post',
         headers: 'headers',
       }
     )
 
-    expect(Logger.log).toHaveBeenCalledWith('Hatching Skeleton PandaCub')
-    expect(Logger.log).toHaveBeenCalledWith('Hatching Red FlyingPig')
+    expect(Logger.log).toHaveBeenCalledWith('Hatching Red PandaCub')
+    expect(Logger.log).toHaveBeenCalledWith('Hatching Skeleton FlyingPig')
   })
 
   test('hatches nothing if no eggs', () => {
@@ -258,6 +289,45 @@ describe('#hatchPets', () => {
     habitica.hatchPets()
 
     expect(Logger.log).toHaveBeenCalledWith('All out of eggs')
+  })
+
+  test('hatches nothing if no potions', () => {
+    const habitica = setup({
+      user: {
+        items: {
+          eggs: {
+            PandaCub: 1,
+            BearCub: 0,
+            Wolf: 0,
+            Cactus: 0,
+            Dragon: 0,
+            TigerCub: 0,
+            FlyingPig: 0,
+            Fox: 0,
+            LionCub: 0,
+            SeaSerpent: 0,
+          },
+          hatchingPotions: {
+            Skeleton: 0,
+            Shade: 0,
+            Red: 0,
+            CottonCandyPink: 0,
+            RoyalPurple: 0,
+            CottonCandyBlue: 0,
+            BlackPearl: 0,
+            Desert: 0,
+            Golden: 0,
+            Base: 0,
+            Zombie: 0,
+            White: 0,
+          },
+        },
+      },
+    })
+
+    habitica.hatchPets()
+
+    expect(Logger.log).toHaveBeenCalledWith('All out of potions')
   })
 })
 

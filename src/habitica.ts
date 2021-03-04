@@ -74,11 +74,22 @@ export default class Habitica {
 
     const hatchingPotions = hasItems(items.hatchingPotions)
 
-    const hatch = eggs.map((val, i) =>
-      [hatchingPotions].reduce((a, arr) => [...a, arr[i]], [val])
-    )
+    if (hatchingPotions.length === 0) {
+      Logger.log(`All out of potions`)
+      return
+    }
 
-    hatch.forEach(([pet, egg]) => {
+    const pets = hasItems(items.pets)
+
+    const combinations = eggs
+      .map((egg) => hatchingPotions.map((potion) => `${egg}-${potion}`))
+      .map(
+        (combinedPets) =>
+          combinedPets.filter((p) => !pets.some((pet) => pet === p))[0]
+      )
+
+    combinations.forEach((combo) => {
+      const [pet, egg] = combo.split('-')
       this.fetch(`/user/hatch/${pet}/${egg}`, HttpMethod.POST)
       Logger.log(`Hatching ${egg} ${pet}`)
     })

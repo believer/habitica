@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/believer/habitica/compare/v1.0.0...v1.0.1) (2021-03-04)
+
+
+### Bug Fixes
+
+* **hatchPets:** handle missing potions and existing pet ([d8deb01](https://github.com/believer/habitica/commit/d8deb01fa6ad1783d35951903f086f7f892855e4))
+
 # 1.0.0 (2021-03-04)
 
 

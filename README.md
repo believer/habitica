@@ -1,5 +1,7 @@
 # Habitica Automation
 
+[![](https://github.com/believer/habitica/workflows/Release/badge.svg)](https://github.com/believer/habitica/actions?workflow=Release)
+
 I got inspired by @alexanderczigler's [automation scripts](https://github.com/alexanderczigler/habitica) for our [Habitica](http://habitica.com/) party and wanted to try out Google Apps Scripts for myself.
 
 ## Get started

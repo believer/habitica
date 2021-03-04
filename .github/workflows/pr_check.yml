@@ -14,6 +14,13 @@ jobs:
         uses: actions/checkout@v2
       - name: Setup Node
         uses: actions/setup-node@v1
+
+      - name: Create mock config
+        uses: "finnp/create-file-action@master"
+        env:
+          FILE_NAME: "src/config.ts"
+          FILE_BASE64: "Y29uc3QgY29uZmlnID0gewogIGdvbGRUaHJlc2hvbGRzOiB7CiAgICBhcm1vaXJlOiA1MDAsCiAgfSwKICBtYW5hVGhyZXNob2xkczogewogICAgZWFydGhxdWFrZTogMTUwLAogIH0sCiAgaGVhZGVyczogewogICAgJ3gtYXBpLXVzZXInOiAndXNlcicsCiAgICAneC1hcGkta2V5JzogJ2tleScsCiAgfSwKfQoKZXhwb3J0IGRlZmF1bHQgY29uZmlnCg=="
+
       - name: Run tests and linting
         run: |
           npm ci

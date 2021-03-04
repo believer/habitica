@@ -14,5 +14,5 @@ node_modules
 .DS_Store
 
 # Project
-config.ts
+src/config.ts
 .clasp.json

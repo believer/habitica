@@ -1,4 +1,4 @@
-import { HttpMethod, User, ArmoireResult } from './types'
+import { HttpMethod, User, ArmoireResult, Party } from './types'
 import config from './config'
 
 const hasItems = (items: { [key: string]: number }) =>
@@ -13,15 +13,22 @@ export default class Habitica {
   private fetch<T = any>(url: string, method: HttpMethod = HttpMethod.GET): T {
     const response = UrlFetchApp.fetch(`${this.baseUrl}${url}`, {
       method,
-      headers: this.config.headers,
+      headers: {
+        'x-api-user': this.config.user.id,
+        'x-api-key': this.config.user.key,
+      },
     }).getContentText()
     const { data } = JSON.parse(response)
 
     return data
   }
 
-  private getUser(): User {
-    return this.fetch('/user?userFields=stats,items')
+  private getUser() {
+    return this.fetch<User>('/user?userFields=stats,items')
+  }
+
+  private getParty() {
+    return this.fetch<Party>('/groups/party')
   }
 
   buyArmoire(): void {
@@ -132,5 +139,27 @@ export default class Habitica {
       this.fetch(`/user/feed/${pet}/${food}`, HttpMethod.POST)
       Logger.log(`Feeding ${food} to ${pet}`)
     })
+  }
+
+  joinQuest(): void {
+    const { quest } = this.getParty()
+
+    if (!quest.key) {
+      Logger.log('No current quest')
+      return
+    }
+
+    if (quest.active) {
+      Logger.log('Quest has already started')
+      return
+    }
+
+    if (quest.members[this.config.user.id]) {
+      Logger.log('You have already joined the quest')
+      return
+    }
+
+    this.fetch('/groups/party/quests/accept', HttpMethod.POST)
+    Logger.log('You have joined the quest! Happy hunting')
   }
 }

@@ -56,6 +56,10 @@ Cast "Earthquake" that buffs the party's intelligence
 
 Hatch any eggs you have laying around
 
-## `feedPets`
+### `feedPets`
 
 Feed those hungry pets
+
+### `joinQuest`
+
+Join a pending quest

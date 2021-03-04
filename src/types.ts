@@ -27,3 +27,13 @@ export interface ArmoireResult {
     value: number
   }
 }
+
+interface Quest {
+  active: boolean
+  members: { [key: string]: boolean | null }
+  key?: string
+}
+
+export interface Party {
+  quest: Quest
+}

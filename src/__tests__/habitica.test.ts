@@ -7,7 +7,10 @@ jest.mock('../config', () => ({
   goldThresholds: {
     armoire: 500,
   },
-  headers: 'headers',
+  user: {
+    id: '1234',
+    key: 'key',
+  },
 }))
 
 let UrlFetchApp: any
@@ -26,11 +29,11 @@ beforeEach(() => {
   global.Logger = Logger
 })
 
-const setup = ({ user }) => {
+const setup = (data) => {
   UrlFetchApp.fetch.mockImplementationOnce(() => ({
     getContentText: jest.fn(() =>
       JSON.stringify({
-        data: user,
+        data,
       })
     ),
   }))
@@ -41,10 +44,8 @@ const setup = ({ user }) => {
 describe('#buyArmoire', () => {
   test('buy if gold is above threshold, get food', () => {
     const habitica = setup({
-      user: {
-        stats: {
-          gp: 600,
-        },
+      stats: {
+        gp: 600,
       },
     })
 
@@ -68,10 +69,8 @@ describe('#buyArmoire', () => {
 
   test('buy if gold is above threshold, get item', () => {
     const habitica = setup({
-      user: {
-        stats: {
-          gp: 600,
-        },
+      stats: {
+        gp: 600,
       },
     })
 
@@ -96,10 +95,8 @@ describe('#buyArmoire', () => {
 
   test('buys nothing if gold is below threshold', () => {
     const habitica = setup({
-      user: {
-        stats: {
-          gp: 400,
-        },
+      stats: {
+        gp: 400,
       },
     })
 
@@ -114,10 +111,8 @@ describe('#buyArmoire', () => {
 describe('#earthquake', () => {
   test('cast if mana is above threshold', () => {
     const habitica = setup({
-      user: {
-        stats: {
-          mp: 160,
-        },
+      stats: {
+        mp: 160,
       },
     })
 
@@ -132,7 +127,7 @@ describe('#earthquake', () => {
       'https://habitica.com/api/v3/user/class/cast/earth',
       {
         method: 'post',
-        headers: 'headers',
+        headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
       }
     )
     expect(Logger.log).toHaveBeenCalledWith('Casting *earthquake*')
@@ -140,10 +135,8 @@ describe('#earthquake', () => {
 
   test('does not cast if mana is below threshold', () => {
     const habitica = setup({
-      user: {
-        stats: {
-          mp: 149,
-        },
+      stats: {
+        mp: 149,
       },
     })
 
@@ -161,65 +154,63 @@ describe('#earthquake', () => {
 describe('#hatchPets', () => {
   test('hatches any available eggs', () => {
     const habitica = setup({
-      user: {
-        items: {
-          eggs: {
-            PandaCub: 1,
-            BearCub: 0,
-            Wolf: 0,
-            Cactus: 0,
-            Dragon: 0,
-            TigerCub: 0,
-            FlyingPig: 1,
-            Fox: 0,
-            LionCub: 0,
-            SeaSerpent: 0,
-          },
-          hatchingPotions: {
-            Skeleton: 1,
-            Shade: 0,
-            Red: 1,
-            CottonCandyPink: 0,
-            RoyalPurple: 0,
-            CottonCandyBlue: 0,
-            BlackPearl: 0,
-            Desert: 1,
-            Golden: 0,
-            Base: 4,
-            Zombie: 1,
-            White: 1,
-          },
-          pets: {
-            'PandaCub-Skeleton': 27,
-            'BearCub-Shade': 5,
-            'Jackalope-RoyalPurple': 5,
-            'Phoenix-Base': 5,
-            'Wolf-Red': 30,
-            'PandaCub-CottonCandyPink': 40,
-            'BearCub-Skeleton': 5,
-            'PandaCub-Shade': 30,
-            'Cactus-CottonCandyBlue': 15,
-            'Dragon-Skeleton': 5,
-            'Dragon-Shade': 5,
-            'Cactus-CottonCandyPink': 5,
-            'Dragon-Red': 5,
-            'PandaCub-CottonCandyBlue': 15,
-            'TigerCub-Golden': 20,
-            'FlyingPig-Base': 20,
-            'Fox-Desert': 15,
-            'TigerCub-Red': 5,
-            'Cactus-Shade': 5,
-            'LionCub-BlackPearl': 5,
-            'FlyingPig-RoyalPurple': 5,
-            'PandaCub-BlackPearl': 5,
-            'LionCub-RoyalPurple': 5,
-            'LionCub-Zombie': 25,
-            'Fox-White': 15,
-            'Dragon-BlackPearl': 5,
-            'SeaSerpent-Golden': 5,
-            'SeaSerpent-Red': 5,
-            'SeaSerpent-Shade': 5,
-          },
+      items: {
+        eggs: {
+          PandaCub: 1,
+          BearCub: 0,
+          Wolf: 0,
+          Cactus: 0,
+          Dragon: 0,
+          TigerCub: 0,
+          FlyingPig: 1,
+          Fox: 0,
+          LionCub: 0,
+          SeaSerpent: 0,
+        },
+        hatchingPotions: {
+          Skeleton: 1,
+          Shade: 0,
+          Red: 1,
+          CottonCandyPink: 0,
+          RoyalPurple: 0,
+          CottonCandyBlue: 0,
+          BlackPearl: 0,
+          Desert: 1,
+          Golden: 0,
+          Base: 4,
+          Zombie: 1,
+          White: 1,
+        },
+        pets: {
+          'PandaCub-Skeleton': 27,
+          'BearCub-Shade': 5,
+          'Jackalope-RoyalPurple': 5,
+          'Phoenix-Base': 5,
+          'Wolf-Red': 30,
+          'PandaCub-CottonCandyPink': 40,
+          'BearCub-Skeleton': 5,
+          'PandaCub-Shade': 30,
+          'Cactus-CottonCandyBlue': 15,
+          'Dragon-Skeleton': 5,
+          'Dragon-Shade': 5,
+          'Cactus-CottonCandyPink': 5,
+          'Dragon-Red': 5,
+          'PandaCub-CottonCandyBlue': 15,
+          'TigerCub-Golden': 20,
+          'FlyingPig-Base': 20,
+          'Fox-Desert': 15,
+          'TigerCub-Red': 5,
+          'Cactus-Shade': 5,
+          'LionCub-BlackPearl': 5,
+          'FlyingPig-RoyalPurple': 5,
+          'PandaCub-BlackPearl': 5,
+          'LionCub-RoyalPurple': 5,
+          'LionCub-Zombie': 25,
+          'Fox-White': 15,
+          'Dragon-BlackPearl': 5,
+          'SeaSerpent-Golden': 5,
+          'SeaSerpent-Red': 5,
+          'SeaSerpent-Shade': 5,
         },
       },
     })
@@ -237,14 +228,14 @@ describe('#hatchPets', () => {
       'https://habitica.com/api/v3/user/hatch/PandaCub/Red',
       {
         method: 'post',
-        headers: 'headers',
+        headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
       }
     )
     expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
       'https://habitica.com/api/v3/user/hatch/FlyingPig/Skeleton',
       {
         method: 'post',
-        headers: 'headers',
+        headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
       }
     )
 
@@ -254,34 +245,32 @@ describe('#hatchPets', () => {
 
   test('hatches nothing if no eggs', () => {
     const habitica = setup({
-      user: {
-        items: {
-          eggs: {
-            PandaCub: 0,
-            BearCub: 0,
-            Wolf: 0,
-            Cactus: 0,
-            Dragon: 0,
-            TigerCub: 0,
-            FlyingPig: 0,
-            Fox: 0,
-            LionCub: 0,
-            SeaSerpent: 0,
-          },
-          hatchingPotions: {
-            Skeleton: 1,
-            Shade: 0,
-            Red: 1,
-            CottonCandyPink: 0,
-            RoyalPurple: 0,
-            CottonCandyBlue: 0,
-            BlackPearl: 0,
-            Desert: 1,
-            Golden: 0,
-            Base: 4,
-            Zombie: 1,
-            White: 1,
-          },
+      items: {
+        eggs: {
+          PandaCub: 0,
+          BearCub: 0,
+          Wolf: 0,
+          Cactus: 0,
+          Dragon: 0,
+          TigerCub: 0,
+          FlyingPig: 0,
+          Fox: 0,
+          LionCub: 0,
+          SeaSerpent: 0,
+        },
+        hatchingPotions: {
+          Skeleton: 1,
+          Shade: 0,
+          Red: 1,
+          CottonCandyPink: 0,
+          RoyalPurple: 0,
+          CottonCandyBlue: 0,
+          BlackPearl: 0,
+          Desert: 1,
+          Golden: 0,
+          Base: 4,
+          Zombie: 1,
+          White: 1,
         },
       },
     })
@@ -293,34 +282,32 @@ describe('#hatchPets', () => {
 
   test('hatches nothing if no potions', () => {
     const habitica = setup({
-      user: {
-        items: {
-          eggs: {
-            PandaCub: 1,
-            BearCub: 0,
-            Wolf: 0,
-            Cactus: 0,
-            Dragon: 0,
-            TigerCub: 0,
-            FlyingPig: 0,
-            Fox: 0,
-            LionCub: 0,
-            SeaSerpent: 0,
-          },
-          hatchingPotions: {
-            Skeleton: 0,
-            Shade: 0,
-            Red: 0,
-            CottonCandyPink: 0,
-            RoyalPurple: 0,
-            CottonCandyBlue: 0,
-            BlackPearl: 0,
-            Desert: 0,
-            Golden: 0,
-            Base: 0,
-            Zombie: 0,
-            White: 0,
-          },
+      items: {
+        eggs: {
+          PandaCub: 1,
+          BearCub: 0,
+          Wolf: 0,
+          Cactus: 0,
+          Dragon: 0,
+          TigerCub: 0,
+          FlyingPig: 0,
+          Fox: 0,
+          LionCub: 0,
+          SeaSerpent: 0,
+        },
+        hatchingPotions: {
+          Skeleton: 0,
+          Shade: 0,
+          Red: 0,
+          CottonCandyPink: 0,
+          RoyalPurple: 0,
+          CottonCandyBlue: 0,
+          BlackPearl: 0,
+          Desert: 0,
+          Golden: 0,
+          Base: 0,
+          Zombie: 0,
+          White: 0,
         },
       },
     })
@@ -334,51 +321,49 @@ describe('#hatchPets', () => {
 describe('#feedPets', () => {
   test('does not feed pets if no food is available', () => {
     const habitica = setup({
-      user: {
-        items: {
-          pets: {
-            'PandaCub-Skeleton': 27,
-            'BearCub-Shade': 5,
-            'Jackalope-RoyalPurple': 5,
-            'Phoenix-Base': 5,
-            'Wolf-Red': 30,
-            'PandaCub-CottonCandyPink': 40,
-            'BearCub-Skeleton': 5,
-            'PandaCub-Shade': 30,
-            'Cactus-CottonCandyBlue': 15,
-            'Dragon-Skeleton': 5,
-            'Dragon-Shade': 5,
-            'Cactus-CottonCandyPink': 5,
-            'Dragon-Red': 5,
-            'PandaCub-CottonCandyBlue': 15,
-            'TigerCub-Golden': 20,
-            'FlyingPig-Base': 20,
-            'Fox-Desert': 15,
-            'TigerCub-Red': 5,
-            'Cactus-Shade': 5,
-            'LionCub-BlackPearl': 5,
-            'FlyingPig-RoyalPurple': 5,
-            'PandaCub-BlackPearl': 5,
-            'LionCub-RoyalPurple': 5,
-            'LionCub-Zombie': 25,
-            'Fox-White': 15,
-            'Dragon-BlackPearl': 5,
-            'SeaSerpent-Golden': 5,
-            'SeaSerpent-Red': 5,
-            'SeaSerpent-Shade': 5,
-          },
-          food: {
-            Chocolate: 0,
-            CottonCandyPink: 0,
-            Strawberry: 0,
-            Fish: 0,
-            Honey: 0,
-            Meat: 0,
-            CottonCandyBlue: 0,
-            RottenMeat: 0,
-            Potatoe: 0,
-            Milk: 0,
-          },
+      items: {
+        pets: {
+          'PandaCub-Skeleton': 27,
+          'BearCub-Shade': 5,
+          'Jackalope-RoyalPurple': 5,
+          'Phoenix-Base': 5,
+          'Wolf-Red': 30,
+          'PandaCub-CottonCandyPink': 40,
+          'BearCub-Skeleton': 5,
+          'PandaCub-Shade': 30,
+          'Cactus-CottonCandyBlue': 15,
+          'Dragon-Skeleton': 5,
+          'Dragon-Shade': 5,
+          'Cactus-CottonCandyPink': 5,
+          'Dragon-Red': 5,
+          'PandaCub-CottonCandyBlue': 15,
+          'TigerCub-Golden': 20,
+          'FlyingPig-Base': 20,
+          'Fox-Desert': 15,
+          'TigerCub-Red': 5,
+          'Cactus-Shade': 5,
+          'LionCub-BlackPearl': 5,
+          'FlyingPig-RoyalPurple': 5,
+          'PandaCub-BlackPearl': 5,
+          'LionCub-RoyalPurple': 5,
+          'LionCub-Zombie': 25,
+          'Fox-White': 15,
+          'Dragon-BlackPearl': 5,
+          'SeaSerpent-Golden': 5,
+          'SeaSerpent-Red': 5,
+          'SeaSerpent-Shade': 5,
+        },
+        food: {
+          Chocolate: 0,
+          CottonCandyPink: 0,
+          Strawberry: 0,
+          Fish: 0,
+          Honey: 0,
+          Meat: 0,
+          CottonCandyBlue: 0,
+          RottenMeat: 0,
+          Potatoe: 0,
+          Milk: 0,
         },
       },
     })
@@ -390,51 +375,49 @@ describe('#feedPets', () => {
 
   test('feeds pets with available food', () => {
     const habitica = setup({
-      user: {
-        items: {
-          pets: {
-            'PandaCub-Skeleton': 27,
-            'BearCub-Shade': 5,
-            'Jackalope-RoyalPurple': 5,
-            'Phoenix-Base': 5,
-            'Wolf-Red': 30,
-            'PandaCub-CottonCandyPink': 40,
-            'BearCub-Skeleton': 5,
-            'PandaCub-Shade': 30,
-            'Cactus-CottonCandyBlue': 15,
-            'Dragon-Skeleton': 5,
-            'Dragon-Shade': 5,
-            'Cactus-CottonCandyPink': 5,
-            'Dragon-Red': 5,
-            'PandaCub-CottonCandyBlue': 15,
-            'TigerCub-Golden': 20,
-            'FlyingPig-Base': 20,
-            'Fox-Desert': 15,
-            'TigerCub-Red': 5,
-            'Cactus-Shade': 5,
-            'LionCub-BlackPearl': 5,
-            'FlyingPig-RoyalPurple': 5,
-            'PandaCub-BlackPearl': 5,
-            'LionCub-RoyalPurple': 5,
-            'LionCub-Zombie': 25,
-            'Fox-White': 15,
-            'Dragon-BlackPearl': 5,
-            'SeaSerpent-Golden': 5,
-            'SeaSerpent-Red': 5,
-            'SeaSerpent-Shade': 5,
-          },
-          food: {
-            Chocolate: 0,
-            CottonCandyPink: 0,
-            Strawberry: 0,
-            Fish: 1,
-            Honey: 0,
-            Meat: 2,
-            CottonCandyBlue: 0,
-            RottenMeat: 0,
-            Potatoe: 0,
-            Milk: 0,
-          },
+      items: {
+        pets: {
+          'PandaCub-Skeleton': 27,
+          'BearCub-Shade': 5,
+          'Jackalope-RoyalPurple': 5,
+          'Phoenix-Base': 5,
+          'Wolf-Red': 30,
+          'PandaCub-CottonCandyPink': 40,
+          'BearCub-Skeleton': 5,
+          'PandaCub-Shade': 30,
+          'Cactus-CottonCandyBlue': 15,
+          'Dragon-Skeleton': 5,
+          'Dragon-Shade': 5,
+          'Cactus-CottonCandyPink': 5,
+          'Dragon-Red': 5,
+          'PandaCub-CottonCandyBlue': 15,
+          'TigerCub-Golden': 20,
+          'FlyingPig-Base': 20,
+          'Fox-Desert': 15,
+          'TigerCub-Red': 5,
+          'Cactus-Shade': 5,
+          'LionCub-BlackPearl': 5,
+          'FlyingPig-RoyalPurple': 5,
+          'PandaCub-BlackPearl': 5,
+          'LionCub-RoyalPurple': 5,
+          'LionCub-Zombie': 25,
+          'Fox-White': 15,
+          'Dragon-BlackPearl': 5,
+          'SeaSerpent-Golden': 5,
+          'SeaSerpent-Red': 5,
+          'SeaSerpent-Shade': 5,
+        },
+        food: {
+          Chocolate: 0,
+          CottonCandyPink: 0,
+          Strawberry: 0,
+          Fish: 1,
+          Honey: 0,
+          Meat: 2,
+          CottonCandyBlue: 0,
+          RottenMeat: 0,
+          Potatoe: 0,
+          Milk: 0,
         },
       },
     })
@@ -452,18 +435,81 @@ describe('#feedPets', () => {
       'https://habitica.com/api/v3/user/feed/Phoenix-Base/Meat',
       {
         method: 'post',
-        headers: 'headers',
+        headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
       }
     )
     expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
       'https://habitica.com/api/v3/user/feed/PandaCub-Skeleton/Fish',
       {
         method: 'post',
-        headers: 'headers',
+        headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
       }
     )
 
     expect(Logger.log).toHaveBeenCalledWith('Feeding Meat to Phoenix-Base')
     expect(Logger.log).toHaveBeenCalledWith('Feeding Fish to PandaCub-Skeleton')
+  })
+})
+
+describe('#joinQuest', () => {
+  test('no quest', () => {
+    const habitica = setup({ quest: {} })
+
+    habitica.joinQuest()
+
+    expect(Logger.log).toHaveBeenCalledWith('No current quest')
+  })
+
+  test('quest has already been started', () => {
+    const habitica = setup({ quest: { key: 'id', active: true } })
+
+    habitica.joinQuest()
+
+    expect(Logger.log).toHaveBeenCalledWith('Quest has already started')
+  })
+
+  test('you have already joined the quest', () => {
+    const habitica = setup({
+      quest: {
+        key: 'id',
+        active: false,
+        members: {
+          1234: true,
+        },
+      },
+    })
+
+    habitica.joinQuest()
+
+    expect(Logger.log).toHaveBeenCalledWith('You have already joined the quest')
+  })
+
+  test('join quest', () => {
+    const habitica = setup({
+      quest: {
+        key: 'id',
+        active: false,
+        members: {
+          1234: null,
+        },
+      },
+    })
+
+    UrlFetchApp.fetch.mockImplementationOnce(() => ({
+      getContentText: jest.fn().mockReturnValue('{ "success": true }'),
+    }))
+
+    habitica.joinQuest()
+
+    expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
+      'https://habitica.com/api/v3/groups/party/quests/accept',
+      {
+        method: 'post',
+        headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
+      }
+    )
+    expect(Logger.log).toHaveBeenCalledWith(
+      'You have joined the quest! Happy hunting'
+    )
   })
 })

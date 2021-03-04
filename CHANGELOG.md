@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/believer/habitica/compare/v1.0.1...v1.1.0) (2021-03-04)
+
+
+### Bug Fixes
+
+* add joinQuest runner ([7ced25d](https://github.com/believer/habitica/commit/7ced25d548b3a8145730af7d48d03d20a6672d26))
+
+
+### Features
+
+* add joinQuest ([207b4d7](https://github.com/believer/habitica/commit/207b4d70d7e05604392b2182690306244eb07264))
+
 ## [1.0.1](https://github.com/believer/habitica/compare/v1.0.0...v1.0.1) (2021-03-04)
 
 

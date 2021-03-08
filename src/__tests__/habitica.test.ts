@@ -435,7 +435,7 @@ describe('#feedPets', () => {
     habitica.feedPets()
 
     expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
-      'https://habitica.com/api/v3/user/feed/Phoenix-Base/Meat',
+      'https://habitica.com/api/v3/user/feed/FlyingPig-Base/Meat',
       {
         method: 'post',
         headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
@@ -449,7 +449,7 @@ describe('#feedPets', () => {
       }
     )
 
-    expect(Logger.log).toHaveBeenCalledWith('Feeding Meat to Phoenix-Base')
+    expect(Logger.log).toHaveBeenCalledWith('Feeding Meat to FlyingPig-Base')
     expect(Logger.log).toHaveBeenCalledWith('Feeding Fish to PandaCub-Skeleton')
   })
 })

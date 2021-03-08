@@ -124,11 +124,22 @@ export default class Habitica {
       Zombie: 'RottenMeat',
     }
 
+    const validPets = [
+      'BearCub',
+      'Cactus',
+      'Dragon',
+      'FlyingPig',
+      'Fox',
+      'LionCub',
+      'PandaCub',
+      'TigerCub',
+      'Wolf',
+    ]
+
     const pets = hasItems(items.pets)
-      .map((pet) => {
-        const [, color] = pet.split('-')
-        return [pet, foodMap[color]]
-      })
+      .map((pet) => pet.split('-'))
+      .filter(([pet]) => validPets.includes(pet))
+      .map(([pet, color]) => [`${pet}-${color}`, foodMap[color]])
       .filter(([_, food]) => food)
 
     const feed = foods.map((food) => {

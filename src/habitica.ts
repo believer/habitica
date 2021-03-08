@@ -162,4 +162,23 @@ export default class Habitica {
     this.fetch('/groups/party/quests/accept', HttpMethod.POST)
     Logger.log('You have joined the quest! Happy hunting')
   }
+
+  healthPotion(): void {
+    const {
+      stats: { hp, gp },
+    } = this.getUser()
+
+    if (hp > this.config.healthThresholds.health) {
+      Logger.log('You are healthy enough')
+      return
+    }
+
+    if (gp < 25) {
+      Logger.log('Not enough gold to buy a health potion')
+      return
+    }
+
+    this.fetch('/user/buy-health-potion', HttpMethod.POST)
+    Logger.log(`You are healed up. Current hp = ${hp + 15}`)
+  }
 }

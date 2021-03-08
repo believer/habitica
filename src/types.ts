@@ -4,6 +4,7 @@ export enum HttpMethod {
 }
 
 interface UserStats {
+  hp: number
   gp: number
   mp: number
 }

@@ -7,6 +7,9 @@ jest.mock('../config', () => ({
   goldThresholds: {
     armoire: 500,
   },
+  healthThresholds: {
+    health: 25,
+  },
   user: {
     id: '1234',
     key: 'key',
@@ -510,6 +513,60 @@ describe('#joinQuest', () => {
     )
     expect(Logger.log).toHaveBeenCalledWith(
       'You have joined the quest! Happy hunting'
+    )
+  })
+})
+
+describe('#healthPotion', () => {
+  test('does not buy a health potion if health is above threshold', () => {
+    const habitica = setup({
+      stats: {
+        hp: 50,
+      },
+    })
+
+    habitica.healthPotion()
+
+    expect(Logger.log).toHaveBeenCalledWith('You are healthy enough')
+  })
+
+  test('does not buy a health potion if not enough gold', () => {
+    const habitica = setup({
+      stats: {
+        hp: 20,
+        gp: 20,
+      },
+    })
+
+    habitica.healthPotion()
+
+    expect(Logger.log).toHaveBeenCalledWith(
+      'Not enough gold to buy a health potion'
+    )
+  })
+
+  test('buys a health pot if health is below threshold', () => {
+    const habitica = setup({
+      stats: {
+        hp: 20,
+      },
+    })
+
+    UrlFetchApp.fetch.mockImplementationOnce(() => ({
+      getContentText: jest.fn().mockReturnValue('{ "success": true }'),
+    }))
+
+    habitica.healthPotion()
+
+    expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
+      'https://habitica.com/api/v3/user/buy-health-potion',
+      {
+        method: 'post',
+        headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
+      }
+    )
+    expect(Logger.log).toHaveBeenCalledWith(
+      'You are healed up. Current hp = 35'
     )
   })
 })

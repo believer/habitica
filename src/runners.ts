@@ -21,3 +21,7 @@ function feedPets() {
 function joinQuest() {
   habitica.joinQuest()
 }
+
+function healthPotion() {
+  habitica.healthPotion()
+}

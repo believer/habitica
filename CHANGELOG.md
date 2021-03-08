@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/believer/habitica/compare/v1.2.0...v1.2.1) (2021-03-08)
+
+
+### Bug Fixes
+
+* **feedPets:** only feed valid pets ([07ecf33](https://github.com/believer/habitica/commit/07ecf33fba59c0e55a64ccb2deab17a960a798d1))
+
 # [1.2.0](https://github.com/believer/habitica/compare/v1.1.0...v1.2.0) (2021-03-08)
 
 

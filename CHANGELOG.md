@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/believer/habitica/compare/v1.1.0...v1.2.0) (2021-03-08)
+
+
+### Features
+
+* add healthPotion ([ac062e9](https://github.com/believer/habitica/commit/ac062e981154aa28bfe8105ca042fdd802e5f22a))
+
 # [1.1.0](https://github.com/believer/habitica/compare/v1.0.1...v1.1.0) (2021-03-04)
 
 

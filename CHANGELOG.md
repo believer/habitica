@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/believer/habitica/compare/v1.2.1...v1.3.0) (2021-03-10)
+
+
+### Features
+
+* **feedPets:** feed multiple of one item ([3285a4f](https://github.com/believer/habitica/commit/3285a4fbce66fd79b4b1b9c0ec73890eb261145f))
+
 ## [1.2.1](https://github.com/believer/habitica/compare/v1.2.0...v1.2.1) (2021-03-08)
 
 

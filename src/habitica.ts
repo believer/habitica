@@ -75,14 +75,14 @@ export default class Habitica {
     const eggs = hasItems(items.eggs)
 
     if (eggs.length === 0) {
-      Logger.log(`All out of eggs`)
+      Logger.log('All out of eggs')
       return
     }
 
     const hatchingPotions = hasItems(items.hatchingPotions)
 
     if (hatchingPotions.length === 0) {
-      Logger.log(`All out of potions`)
+      Logger.log('All out of potions')
       return
     }
 

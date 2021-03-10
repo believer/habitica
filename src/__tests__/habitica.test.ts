@@ -435,7 +435,7 @@ describe('#feedPets', () => {
     habitica.feedPets()
 
     expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
-      'https://habitica.com/api/v3/user/feed/FlyingPig-Base/Meat',
+      'https://habitica.com/api/v3/user/feed/FlyingPig-Base/Meat?amount=2',
       {
         method: 'post',
         headers: { 'x-api-user': '1234', 'x-api-key': 'key' },

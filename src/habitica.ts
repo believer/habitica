@@ -105,7 +105,7 @@ export default class Habitica {
   feedPets(): void {
     const { items } = this.getUser()
 
-    const foods = hasItems(items.food)
+    const foods = Object.entries(items.food).filter(([_, value]) => value > 0)
 
     if (foods.length === 0) {
       Logger.log('All out of food')
@@ -142,12 +142,15 @@ export default class Habitica {
       .map(([pet, color]) => [`${pet}-${color}`, foodMap[color]])
       .filter(([_, food]) => food)
 
-    const feed = foods.map((food) => {
-      return pets.find(([_, petLikes]) => food === petLikes)
+    const feed = foods.map(([food, value]) => {
+      return [...pets.find(([_, petLikes]) => food === petLikes), value]
     })
 
-    feed.forEach(([pet, food]) => {
-      this.fetch(`/user/feed/${pet}/${food}`, HttpMethod.POST)
+    feed.forEach(([pet, food, amount]) => {
+      this.fetch(
+        `/user/feed/${pet}/${food}${amount > 1 ? `?amount=${amount}` : ''}`,
+        HttpMethod.POST
+      )
       Logger.log(`Feeding ${food} to ${pet}`)
     })
   }

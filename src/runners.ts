@@ -10,6 +10,10 @@ function earthquake() {
   habitica.earthquake()
 }
 
+function toolsOfTrade() {
+  habitica.toolsOfTrade()
+}
+
 function hatchPets() {
   habitica.hatchPets()
 }

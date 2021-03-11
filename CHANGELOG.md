@@ -1,3 +1,15 @@
+# [1.4.0](https://github.com/believer/habitica/compare/v1.3.0...v1.4.0) (2021-03-11)
+
+
+### Bug Fixes
+
+* add tools of trade runner ([de212a9](https://github.com/believer/habitica/commit/de212a9daade9874fbbfd453b449c55b46eb2cd3))
+
+
+### Features
+
+* **spell:** add cast of tools of trade ([88f898e](https://github.com/believer/habitica/commit/88f898e27768e8fe22c505f8dd79b1d2e8427244))
+
 # [1.3.0](https://github.com/believer/habitica/compare/v1.2.1...v1.3.0) (2021-03-10)
 
 

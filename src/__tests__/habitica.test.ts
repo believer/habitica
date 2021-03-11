@@ -3,6 +3,7 @@ import Habitica from '../habitica'
 jest.mock('../config', () => ({
   manaThresholds: {
     earthquake: 150,
+    toolsOfTrade: 100,
   },
   goldThresholds: {
     armoire: 500,
@@ -133,7 +134,7 @@ describe('#earthquake', () => {
         headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
       }
     )
-    expect(Logger.log).toHaveBeenCalledWith('Casting *earthquake*')
+    expect(Logger.log).toHaveBeenCalledWith('Casting *earth*')
   })
 
   test('does not cast if mana is below threshold', () => {
@@ -151,6 +152,49 @@ describe('#earthquake', () => {
     habitica.earthquake()
 
     expect(Logger.log).toHaveBeenCalledWith('Mana is at 149. Threshold = 150')
+  })
+})
+
+describe('#toolsOfTrade', () => {
+  test('cast if mana is above threshold', () => {
+    const habitica = setup({
+      stats: {
+        mp: 160,
+      },
+    })
+
+    // Cast quake
+    UrlFetchApp.fetch.mockImplementationOnce(() => ({
+      getContentText: jest.fn().mockReturnValue('{ "success": true }'),
+    }))
+
+    habitica.toolsOfTrade()
+
+    expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
+      'https://habitica.com/api/v3/user/class/cast/toolsOfTrade',
+      {
+        method: 'post',
+        headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
+      }
+    )
+    expect(Logger.log).toHaveBeenCalledWith('Casting *toolsOfTrade*')
+  })
+
+  test('does not cast if mana is below threshold', () => {
+    const habitica = setup({
+      stats: {
+        mp: 99,
+      },
+    })
+
+    // Cast quake
+    UrlFetchApp.fetch.mockImplementationOnce(() => ({
+      getContentText: jest.fn().mockReturnValue('{ "success": true }'),
+    }))
+
+    habitica.toolsOfTrade()
+
+    expect(Logger.log).toHaveBeenCalledWith('Mana is at 99. Threshold = 100')
   })
 })
 

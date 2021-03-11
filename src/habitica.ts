@@ -1,4 +1,4 @@
-import { HttpMethod, User, ArmoireResult, Party } from './types'
+import { HttpMethod, User, ArmoireResult, Party, Spell } from './types'
 import config from './config'
 
 const hasItems = (items: { [key: string]: number }) =>
@@ -31,6 +31,19 @@ export default class Habitica {
     return this.fetch<Party>('/groups/party')
   }
 
+  private castSpell(spell: Spell, threshold: number) {
+    const {
+      stats: { mp: mana },
+    } = this.getUser()
+
+    if (mana > threshold) {
+      this.fetch(`/user/class/cast/${spell}`, HttpMethod.POST)
+      Logger.log(`Casting *${spell}*`)
+    } else {
+      Logger.log(`Mana is at ${mana}. Threshold = ${threshold}`)
+    }
+  }
+
   buyArmoire(): void {
     const {
       stats: { gp: gold },
@@ -55,18 +68,11 @@ export default class Habitica {
   }
 
   earthquake(): void {
-    const {
-      stats: { mp: mana },
-    } = this.getUser()
+    this.castSpell(Spell.Earthquake, this.config.manaThresholds.earthquake)
+  }
 
-    if (mana > this.config.manaThresholds.earthquake) {
-      this.fetch('/user/class/cast/earth', HttpMethod.POST)
-      Logger.log('Casting *earthquake*')
-    } else {
-      Logger.log(
-        `Mana is at ${mana}. Threshold = ${this.config.manaThresholds.earthquake}`
-      )
-    }
+  toolsOfTrade(): void {
+    this.castSpell(Spell.ToolsOfTrade, this.config.manaThresholds.toolsOfTrade)
   }
 
   hatchPets(): void {

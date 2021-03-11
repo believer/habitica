@@ -3,6 +3,11 @@ export enum HttpMethod {
   POST = 'post',
 }
 
+export enum Spell {
+  Earthquake = 'earth',
+  ToolsOfTrade = 'toolsOfTrade',
+}
+
 interface UserStats {
   hp: number
   gp: number

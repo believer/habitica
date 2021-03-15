@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/believer/habitica/compare/v1.4.1...v1.4.2) (2021-03-15)
+
+
+### Bug Fixes
+
+* **feedPets:** handle pets which have mounts ([87011a6](https://github.com/believer/habitica/commit/87011a62799438291418b925ef1e0319f93bc910))
+
 ## [1.4.1](https://github.com/believer/habitica/compare/v1.4.0...v1.4.1) (2021-03-15)
 
 

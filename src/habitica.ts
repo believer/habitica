@@ -149,7 +149,13 @@ export default class Habitica {
       .filter(([_, food]) => food)
 
     const feed = foods.map(([food, value]) => {
-      return [...pets.find(([_, petLikes]) => food === petLikes), value]
+      const matchFood = food.match(
+        /(Base|CottonCandyBlue|CottonCandyPink|Desert|Golden|Red|Shade|Skeleton|White|Zombie)/gi
+      )
+
+      const petFood = matchFood?.length > 0 ? foodMap[matchFood[0]] : food
+
+      return [...pets.find(([_, petLikes]) => petFood === petLikes), value]
     })
 
     feed.forEach(([pet, food, amount]) => {

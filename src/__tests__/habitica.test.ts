@@ -465,10 +465,23 @@ describe('#feedPets', () => {
           RottenMeat: 0,
           Potatoe: 0,
           Milk: 0,
+          Pie_Base: 0,
+          Pie_CottonCandyBlue: 0,
+          Pie_CottonCandyPink: 1,
+          Pie_Desert: 0,
+          Pie_Golden: 0,
+          Pie_Red: 0,
+          Pie_Shade: 0,
+          Pie_Skeleton: 0,
+          Pie_White: 0,
+          Pie_Zombie: 0,
         },
       },
     })
 
+    UrlFetchApp.fetch.mockImplementationOnce(() => ({
+      getContentText: jest.fn().mockReturnValue('{ "success": true }'),
+    }))
     UrlFetchApp.fetch.mockImplementationOnce(() => ({
       getContentText: jest.fn().mockReturnValue('{ "success": true }'),
     }))
@@ -492,9 +505,19 @@ describe('#feedPets', () => {
         headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
       }
     )
+    expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
+      'https://habitica.com/api/v3/user/feed/PandaCub-CottonCandyPink/CottonCandyPink',
+      {
+        method: 'post',
+        headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
+      }
+    )
 
     expect(Logger.log).toHaveBeenCalledWith('Feeding Meat to FlyingPig-Base')
     expect(Logger.log).toHaveBeenCalledWith('Feeding Fish to PandaCub-Skeleton')
+    expect(Logger.log).toHaveBeenCalledWith(
+      'Feeding CottonCandyPink to PandaCub-CottonCandyPink'
+    )
   })
 })
 

@@ -146,17 +146,27 @@ export default class Habitica {
       .map((pet) => pet.split('-'))
       .filter(([pet]) => validPets.includes(pet))
       .map(([pet, color]) => [`${pet}-${color}`, foodMap[color]])
+      .filter(([pet]) => !items.mounts[pet])
       .filter(([_, food]) => food)
 
-    const feed = foods.map(([food, value]) => {
-      const matchFood = food.match(
-        /(Base|CottonCandyBlue|CottonCandyPink|Desert|Golden|Red|Shade|Skeleton|White|Zombie)/gi
-      )
+    const feed = foods
+      .map(([food, value]) => {
+        const matchFood = food.match(
+          /(Base|CottonCandyBlue|CottonCandyPink|Desert|Golden|Red|Shade|Skeleton|White|Zombie)/gi
+        )
 
-      const petFood = matchFood?.length > 0 ? foodMap[matchFood[0]] : food
+        const petFood = matchFood?.length > 0 ? foodMap[matchFood[0]] : food
+        const petThatLikesFood = pets.find(
+          ([_, petLikes]) => petFood === petLikes
+        )
 
-      return [...pets.find(([_, petLikes]) => petFood === petLikes), value]
-    })
+        if (!petThatLikesFood) {
+          return null
+        }
+
+        return [...petThatLikesFood, value]
+      })
+      .filter(Boolean)
 
     feed.forEach(([pet, food, amount]) => {
       this.fetch(

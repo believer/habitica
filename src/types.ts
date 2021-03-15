@@ -19,6 +19,7 @@ interface UserItems {
   food: { [key: string]: number }
   hatchingPotions: { [key: string]: number }
   pets: { [key: string]: number }
+  mounts: { [key: string]: boolean }
 }
 
 export interface User {

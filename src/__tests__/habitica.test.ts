@@ -412,6 +412,15 @@ describe('#feedPets', () => {
           Potatoe: 0,
           Milk: 0,
         },
+        mounts: {
+          'Hippogriff-Hopeful': true,
+          'Phoenix-Base': true,
+          'PandaCub-CottonCandyPink': true,
+          'Aether-Invisible': true,
+          'PandaCub-Skeleton': true,
+          'FlyingPig-Base': true,
+          'Wolf-Red': true,
+        },
       },
     })
 
@@ -476,6 +485,13 @@ describe('#feedPets', () => {
           Pie_White: 0,
           Pie_Zombie: 0,
         },
+        mounts: {
+          'Hippogriff-Hopeful': true,
+          'Phoenix-Base': true,
+          'PandaCub-CottonCandyPink': true,
+          'Aether-Invisible': true,
+          'Wolf-Red': true,
+        },
       },
     })
 
@@ -506,7 +522,7 @@ describe('#feedPets', () => {
       }
     )
     expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
-      'https://habitica.com/api/v3/user/feed/PandaCub-CottonCandyPink/CottonCandyPink',
+      'https://habitica.com/api/v3/user/feed/Cactus-CottonCandyPink/CottonCandyPink',
       {
         method: 'post',
         headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
@@ -516,7 +532,7 @@ describe('#feedPets', () => {
     expect(Logger.log).toHaveBeenCalledWith('Feeding Meat to FlyingPig-Base')
     expect(Logger.log).toHaveBeenCalledWith('Feeding Fish to PandaCub-Skeleton')
     expect(Logger.log).toHaveBeenCalledWith(
-      'Feeding CottonCandyPink to PandaCub-CottonCandyPink'
+      'Feeding CottonCandyPink to Cactus-CottonCandyPink'
     )
   })
 })

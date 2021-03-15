@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/believer/habitica/compare/v1.4.0...v1.4.1) (2021-03-15)
+
+
+### Bug Fixes
+
+* handle special foods ([99645ff](https://github.com/believer/habitica/commit/99645ffcfeffaa97384ab0d39db8cc3cbef81d81))
+
 # [1.4.0](https://github.com/believer/habitica/compare/v1.3.0...v1.4.0) (2021-03-11)
 
 

@@ -522,7 +522,7 @@ describe('#feedPets', () => {
       }
     )
     expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
-      'https://habitica.com/api/v3/user/feed/Cactus-CottonCandyPink/CottonCandyPink',
+      'https://habitica.com/api/v3/user/feed/Cactus-CottonCandyPink/Pie_CottonCandyPink',
       {
         method: 'post',
         headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
@@ -532,7 +532,7 @@ describe('#feedPets', () => {
     expect(Logger.log).toHaveBeenCalledWith('Feeding Meat to FlyingPig-Base')
     expect(Logger.log).toHaveBeenCalledWith('Feeding Fish to PandaCub-Skeleton')
     expect(Logger.log).toHaveBeenCalledWith(
-      'Feeding CottonCandyPink to Cactus-CottonCandyPink'
+      'Feeding Pie_CottonCandyPink to Cactus-CottonCandyPink'
     )
   })
 })

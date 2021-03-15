@@ -164,7 +164,7 @@ export default class Habitica {
           return null
         }
 
-        return [...petThatLikesFood, value]
+        return [petThatLikesFood[0], food, value]
       })
       .filter(Boolean)
 

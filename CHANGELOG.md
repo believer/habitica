@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/believer/habitica/compare/v1.4.2...v1.4.3) (2021-03-15)
+
+
+### Bug Fixes
+
+* **feedPets:** actually feed the specific food ([bf35b7a](https://github.com/believer/habitica/commit/bf35b7a1a36523dad3e60488a8ff95d4bed6655c))
+
 ## [1.4.2](https://github.com/believer/habitica/compare/v1.4.1...v1.4.2) (2021-03-15)
 
 

@@ -1,3 +1,10 @@
+## [1.4.4](https://github.com/believer/habitica/compare/v1.4.3...v1.4.4) (2021-03-20)
+
+
+### Bug Fixes
+
+* **hatchPets:** handle no combinations found ([f9981ee](https://github.com/believer/habitica/commit/f9981eefffb536daa87f1d3a9466d250b4144359))
+
 ## [1.4.3](https://github.com/believer/habitica/compare/v1.4.2...v1.4.3) (2021-03-15)
 
 

@@ -100,6 +100,7 @@ export default class Habitica {
         (combinedPets) =>
           combinedPets.filter((p) => !pets.some((pet) => pet === p))[0]
       )
+      .filter(Boolean)
 
     combinations.forEach((combo) => {
       const [pet, egg] = combo.split('-')

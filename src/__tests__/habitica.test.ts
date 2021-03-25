@@ -529,10 +529,12 @@ describe('#feedPets', () => {
       }
     )
 
-    expect(Logger.log).toHaveBeenCalledWith('Feeding Meat to FlyingPig-Base')
-    expect(Logger.log).toHaveBeenCalledWith('Feeding Fish to PandaCub-Skeleton')
+    expect(Logger.log).toHaveBeenCalledWith('Feeding 2 Meat to FlyingPig-Base')
     expect(Logger.log).toHaveBeenCalledWith(
-      'Feeding Pie_CottonCandyPink to Cactus-CottonCandyPink'
+      'Feeding 1 Fish to PandaCub-Skeleton'
+    )
+    expect(Logger.log).toHaveBeenCalledWith(
+      'Feeding 1 Pie_CottonCandyPink to Cactus-CottonCandyPink'
     )
   })
 
@@ -563,7 +565,9 @@ describe('#feedPets', () => {
       }
     )
 
-    expect(Logger.log).toHaveBeenCalledWith('Feeding Fish to PandaCub-Skeleton')
+    expect(Logger.log).toHaveBeenCalledWith(
+      'Feeding 4 Fish to PandaCub-Skeleton'
+    )
   })
 })
 

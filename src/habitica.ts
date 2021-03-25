@@ -179,7 +179,7 @@ export default class Habitica {
         }`,
         HttpMethod.POST
       )
-      Logger.log(`Feeding ${food} to ${pet}`)
+      Logger.log(`Feeding ${feedAmount} ${food} to ${pet}`)
     })
   }
 

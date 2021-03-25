@@ -1,3 +1,10 @@
+## [1.4.5](https://github.com/believer/habitica/compare/v1.4.4...v1.4.5) (2021-03-25)
+
+
+### Bug Fixes
+
+* **feedPets:** only feed to the maximum amount allowed ([0a0c007](https://github.com/believer/habitica/commit/0a0c00722c5e6544080c1da181d901a8a5d19256))
+
 ## [1.4.4](https://github.com/believer/habitica/compare/v1.4.3...v1.4.4) (2021-03-20)
 
 

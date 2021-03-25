@@ -535,6 +535,36 @@ describe('#feedPets', () => {
       'Feeding Pie_CottonCandyPink to Cactus-CottonCandyPink'
     )
   })
+
+  test('only feed pets to 50', () => {
+    const habitica = setup({
+      items: {
+        pets: {
+          'PandaCub-Skeleton': 27,
+        },
+        food: {
+          Fish: 7,
+        },
+        mounts: {},
+      },
+    })
+
+    UrlFetchApp.fetch.mockImplementationOnce(() => ({
+      getContentText: jest.fn().mockReturnValue('{ "success": true }'),
+    }))
+
+    habitica.feedPets()
+
+    expect(UrlFetchApp.fetch).toHaveBeenCalledWith(
+      'https://habitica.com/api/v3/user/feed/PandaCub-Skeleton/Fish?amount=4',
+      {
+        method: 'post',
+        headers: { 'x-api-user': '1234', 'x-api-key': 'key' },
+      }
+    )
+
+    expect(Logger.log).toHaveBeenCalledWith('Feeding Fish to PandaCub-Skeleton')
+  })
 })
 
 describe('#joinQuest', () => {

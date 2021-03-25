@@ -170,8 +170,13 @@ export default class Habitica {
       .filter(Boolean)
 
     feed.forEach(([pet, food, amount]) => {
+      const maxFeed = Math.floor((50 - items.pets[pet]) / 5)
+      const feedAmount = amount > 1 && amount > maxFeed ? maxFeed : amount
+
       this.fetch(
-        `/user/feed/${pet}/${food}${amount > 1 ? `?amount=${amount}` : ''}`,
+        `/user/feed/${pet}/${food}${
+          feedAmount > 1 ? `?amount=${feedAmount}` : ''
+        }`,
         HttpMethod.POST
       )
       Logger.log(`Feeding ${food} to ${pet}`)

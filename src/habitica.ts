@@ -1,10 +1,16 @@
 import { HttpMethod, User, ArmoireResult, Party, Spell } from './types'
 import config from './config'
 
-const hasItems = (items: { [key: string]: number }) =>
-  Object.entries(items)
-    .filter(([_, value]) => value > 0)
-    .flatMap(([item]) => item)
+const hasItems = (items: { [key: string]: number }): Array<string> => {
+  const data = new Set<string>()
+
+  for (const [item, value] of Object.entries(items)) {
+    if (value <= 0) continue
+    data.add(item)
+  }
+
+  return Array.from(data)
+}
 
 export default class Habitica {
   private baseUrl = 'https://habitica.com/api/v3'
@@ -111,8 +117,12 @@ export default class Habitica {
 
   feedPets(): void {
     const { items } = this.getUser()
+    const foods = []
 
-    const foods = Object.entries(items.food).filter(([_, value]) => value > 0)
+    for (const food of Object.entries(items.food)) {
+      if (food[1] <= 0) continue
+      foods.push(food)
+    }
 
     if (foods.length === 0) {
       Logger.log('All out of food')
@@ -143,12 +153,18 @@ export default class Habitica {
       'Wolf',
     ]
 
-    const pets = hasItems(items.pets)
-      .map((pet) => pet.split('-'))
-      .filter(([pet]) => validPets.includes(pet))
-      .map(([pet, color]) => [`${pet}-${color}`, foodMap[color]])
-      .filter(([pet]) => !items.mounts[pet])
-      .filter(([_, food]) => food)
+    const pets = []
+
+    for (const pet of hasItems(items.pets)) {
+      const [petName, color] = pet.split('-')
+      const preferredFood = foodMap[color]
+
+      if (!validPets.includes(petName) || items.mounts[pet] || !preferredFood) {
+        continue
+      }
+
+      pets.push([pet, preferredFood])
+    }
 
     const feed = foods
       .map(([food, value]) => {
